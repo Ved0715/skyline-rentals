@@ -1,16 +1,16 @@
 from flask import Blueprint, request, jsonify
 from app import db
 from flask_jwt_extended import jwt_required
-from app.model.tower import Tower
+from app.models.tower import Tower
 from app.models.unit import Unit
 from app.utils.decorators import admin_required
 
 bp = Blueprint('units', __name__)
 # view units
-@dp.route('/units', method=['GET'])
+@bp.route('/units', methods=['GET'])
 def get_units():
     status = request.args.get('status')
-    query = Units.query
+    query = Unit.query
 
     if status:
         query = query.filter_by(status=status)
@@ -80,7 +80,8 @@ def create_unit():
         area_sqft=data['area_sqft'],
         monthly_rent=data['monthly_rent'],
         description=data.get('description'),
-        status='available'
+        status=data.get('status', 'available'),
+        images=data.get('images', [])
     )
     
     try:

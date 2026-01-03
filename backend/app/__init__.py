@@ -17,9 +17,12 @@ def create_app():
     jwt.init_app(app)
     CORS(app)
     
-    from app.routes import auth, main
+    from app.routes import auth, main, units, bookings, admin
     app.register_blueprint(main.bp)
     app.register_blueprint(auth.bp, url_prefix='/api/auth')
+    app.register_blueprint(units.bp, url_prefix='/api')
+    app.register_blueprint(bookings.bp, url_prefix='/api/bookings')
+    app.register_blueprint(admin.bp, url_prefix='/api/admin')
     
     # Import models so Flask-Migrate can detect them
     from app import models
