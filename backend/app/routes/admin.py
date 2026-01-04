@@ -65,13 +65,16 @@ def get_payments():
 @admin_required()
 def get_dashboard_stats():
     """Admin dashboard statistics."""
-    # Simple counts
+    from app.models.booking import Booking
+    from app.models.unit import Unit
+    
+    # Real statistics
     total_users = User.query.count()
-    active_leases = Lease.query.filter_by(status='active').count()
-    pending_payments = Payment.query.filter_by(status='pending').count()
+    pending_bookings = Booking.query.filter_by(status='pending').count()
+    available_units = Unit.query.filter_by(status='available').count()
     
     return jsonify({
         'total_users': total_users,
-        'active_tenants': active_leases,
-        'pending_payments': pending_payments
+        'pending_bookings': pending_bookings,
+        'available_units': available_units
     }), 200

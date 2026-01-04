@@ -1,0 +1,139 @@
+<div class="min-h-screen bg-white">
+  <!-- Navigation -->
+  <nav class="bg-white border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16 items-center">
+        <div class="flex items-center">
+          <h1 class="text-2xl font-bold text-indigo-600">RentalPortal</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+          <a routerLink="/login" class="text-gray-700 hover:text-indigo-600 font-medium">Sign in</a>
+          <a routerLink="/register" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 font-medium">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="py-20 bg-gradient-to-r from-indigo-600 to-purple-600">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-5xl font-extrabold text-white mb-6">
+        Find Your Perfect Home Today
+      </h1>
+      <p class="text-xl text-indigo-100 mb-8 max-w-2xl mx-auto">
+        Browse premium apartments, schedule viewings, and book your next rental in minutes. 
+        Simple, fast, and hassle-free.
+      </p>
+      <div class="flex justify-center space-x-4">
+        <a routerLink="/register" class="bg-white text-indigo-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
+          Start Browsing
+        </a>
+        <a (click)="scrollToFeatured()" class="bg-indigo-700 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-800 transition cursor-pointer">
+          See Available Units
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">Why Choose Us</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Feature 1 -->
+        <div class="text-center p-6">
+          <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Easy Search</h3>
+          <p class="text-gray-600">Browse hundreds of verified apartments with detailed photos and descriptions</p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="text-center p-6">
+          <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Instant Booking</h3>
+          <p class="text-gray-600">Request bookings online and get instant confirmation from property managers</p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="text-center p-6">
+          <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Secure & Safe</h3>
+          <p class="text-gray-600">All properties verified and managed by trusted professionals</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Units Section -->
+  <section id="featured-units" class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold text-center text-gray-900 mb-2">Featured Apartments</h2>
+      <p class="text-center text-gray-600 mb-12">Explore our most popular available units</p>
+
+      <!-- Loading State -->
+      <div *ngIf="loading" class="text-center py-12">
+        <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-indigo-600 border-r-transparent"></div>
+        <p class="text-gray-500 mt-4">Loading apartments...</p>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="!loading && units.length === 0" class="text-center py-12">
+        <p class="text-gray-500">No apartments available at the moment. Check back soon!</p>
+      </div>
+
+      <!-- Units Grid -->
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div *ngFor="let unit of units.slice(0, 6)" class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+          <!-- Image -->
+          <div class="h-48 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+            <img *ngIf="unit.images?.length" [src]="unit.images[0]" class="h-full w-full object-cover" [alt]="'Unit ' + unit.unit_number">
+            <span *ngIf="!unit.images?.length" class="text-gray-400 text-sm">No Image Available</span>
+          </div>
+          
+          <!-- Content -->
+          <div class="p-5">
+            <div class="flex justify-between items-start mb-3">
+              <div>
+                <h3 class="text-lg font-semibold text-gray-900">Unit {{ unit.unit_number }}</h3>
+                <p class="text-sm text-gray-500">Floor {{ unit.floor }}</p>
+              </div>
+              <div class="text-right">
+                <p class="text-2xl font-bold text-indigo-600">${{ unit.monthly_rent }}</p>
+                <p class="text-xs text-gray-500">per month</p>
+              </div>
+            </div>
+            
+            <div class="flex items-center text-sm text-gray-600 mb-3">
+              <span class="flex items-center mr-3">
+                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                </svg>
+                {{ unit.bedrooms }} Bed
+              </span>
+              <span class="flex items-center">
+                {{ unit.bathrooms }} Bath • {{ unit.area_sqft }} sqft
+              </span>
+            </div>
+
+            <a routerLink="/register" class="block w-full text-center bg-indigo-600 text-white py-2.5 px-4 rounded-md hover:bg-indigo-700 font-medium transition">
+              Book Now
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- View All CTA -->
+      <div class="text-center mt-12" *ngIf="units.length > 6">
+        

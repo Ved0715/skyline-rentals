@@ -16,7 +16,7 @@ def get_units():
         query = query.filter_by(status=status)
 
     units = query.all()
-    return jsonify([unit.to_dict(include_tower=True) for unit in units]), 200
+    return jsonify([unit.to_dict(include_tower=True, include_amenities=True) for unit in units]), 200
 
 #view unit details
 @bp.route('/units/<unit_id>', methods=['GET'])

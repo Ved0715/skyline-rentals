@@ -8,7 +8,7 @@ from app.utils.decorators import admin_required
 bp = Blueprint('bookings', __name__)
 
 #create booking
-@bp.route('/', methods=['POST'])
+@bp.route('/', methods=['POST'], strict_slashes=False)
 @jwt_required()
 def create_booking():
     data = request.get_json()

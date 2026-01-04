@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    container_name: rental_db
+    environment:
+      POSTGRES_DB: apartment_rental
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Flask Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: rental_backend
+    environment:
+      DATABASE_URL: postgresql+psycopg://postgres:postgres@db:5432/apartment_rental
+      SECRET_KEY: ved-secreat-sjk89wh4en8wb42yb4264284t72bfiw4fh9284h2ofne2b
+      JWT_SECRET_KEY: ved_Jwtsecreate-rental_84wbf8wfn8nw8fn8wnfw9nfwslmdfuwinjeebrtr4w523
+      FLASK_ENV: production
+    ports:
+      - "5001:5001"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+    command: sh -c "flask db upgrade && python run.py"
+
+  # Angular Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: rental_frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
