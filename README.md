@@ -2,7 +2,7 @@
 
 A full-stack application for managing residential apartment rentals, featuring a public user portal for booking and an admin portal for management. Built with Angular (v21), Flask, and PostgreSQL, fully containerized with Docker.
 
-## 🚀 Quick Start (Docker)
+## Quick Start (Docker)
 
 The easiest way to run the application is using Docker Compose.
 
@@ -37,14 +37,14 @@ This creates the admin user and sample data (apartments, amenities).
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 - **Frontend**: Angular 21, Tailwind CSS, Nginx
 - **Backend**: Python Flask, SQLAlchemy, Flask-Migrate, JWT Extended
 - **Database**: PostgreSQL 15
 - **Infrastructure**: Docker, Docker Compose
 
-## 🔑 Key Features
+## Key Features
 
 ### User Portal
 
@@ -58,7 +58,7 @@ This creates the admin user and sample data (apartments, amenities).
 - **Unit Management**: Add/Edit apartment units.
 - **Booking Workflow**: Approve or decline user booking requests.
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 ├── backend/            # Flask API
@@ -71,7 +71,7 @@ This creates the admin user and sample data (apartments, amenities).
 └── docker-compose.yml  # Container orchestration
 ```
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 **Login Failed?**
 
