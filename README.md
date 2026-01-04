@@ -1,205 +1,89 @@
-# Rental Portal - Apartment Rental Management System
+# Apartment Rental Portal
 
-A complete full-stack application for managing residential apartment rentals with user and admin portals.
+A full-stack application for managing residential apartment rentals, featuring a public user portal for booking and an admin portal for management. Built with Angular (v21), Flask, and PostgreSQL, fully containerized with Docker.
 
-## Tech Stack
+## 🚀 Quick Start (Docker)
 
-- **Frontend**: Angular 21 + Tailwind CSS
-- **Backend**: Python Flask + SQLAlchemy
-- **Database**: PostgreSQL
-- **Deployment**: Docker + Docker Compose
+The easiest way to run the application is using Docker Compose.
 
-## Features
+### 1. Start Services
+
+```bash
+docker-compose up --build
+```
+
+This starts:
+
+- **Frontend**: [http://localhost:4200](http://localhost:4200)
+- **Backend**: [http://localhost:5001](http://localhost:5001)
+- **Database**: PostgreSQL (internal)
+
+### 2. Seed Database
+
+Open a **new terminal** and run:
+
+```bash
+docker exec -it rental_backend python seed_data.py
+```
+
+This creates the admin user and sample data (apartments, amenities).
+
+### 3. Login
+
+- **Admin Portal**: [http://localhost:4200](http://localhost:4200) (redirects after login)
+  - **Email**: `adminMain@gmail.com`
+  - **Password**: `111`
+- **User Portal**: Register a new account to browse and book.
+
+---
+
+## 🛠 Tech Stack
+
+- **Frontend**: Angular 21, Tailwind CSS, Nginx
+- **Backend**: Python Flask, SQLAlchemy, Flask-Migrate, JWT Extended
+- **Database**: PostgreSQL 15
+- **Infrastructure**: Docker, Docker Compose
+
+## 🔑 Key Features
 
 ### User Portal
 
-- Browse available apartments
-- View detailed apartment information with amenities
-- Request bookings
-- Track booking status
-- User authentication (JWT)
+- **Browse Units**: View available apartments with amenities and photos.
+- **Booking**: Request unit viewings/bookings.
+- **Dashboard**: Track status of booking requests.
 
 ### Admin Portal
 
-- Dashboard with real-time statistics
-- Manage apartment units
-- Approve/decline booking requests
-- View all users and bookings
+- **Dashboard**: Real-time stats (users, bookings, vacancy).
+- **Unit Management**: Add/Edit apartment units.
+- **Booking Workflow**: Approve or decline user booking requests.
 
-## Quick Start with Docker
-
-### Prerequisites
-
-- Docker
-- Docker Compose
-
-### Running the Application
-
-1. **Clone the repository**
-
-```bash
-cd "untitled folder"
-```
-
-2. **Start all services**
-
-```bash
-docker-compose up --build
-```
-
-3. **Access the application**
-
-- Frontend: `http://localhost`
-- Backend API: `http://localhost:5001`
-
-### Default Credentials
-
-**Admin User:**
-
-- Email: `admin@gmail.com`
-- Password: `1234`
-
-**Test User:**
-
-- Create your own account via registration
-
-## Development Setup
-
-### Backend (Flask)
-
-```bash
-cd backend
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-python run.py
-```
-
-### Frontend (Angular)
-
-```bash
-cd frontend
-npm install
-npm start
-```
-
-### Database
-
-PostgreSQL runs on `localhost:5432`
-
-- Database: `apartment_rental`
-- User: `postgres`
-- Password: `postgres`
-
-## Project Structure
+## 📂 Project Structure
 
 ```
-.
-├── backend/
-│   ├── app/
-│   │   ├── models/      # Database models
-│   │   ├── routes/      # API endpoints
-│   │   └── utils/       # Helper functions
-│   ├── migrations/      # Database migrations
-│   ├── Dockerfile
-│   └── requirements.txt
-├── frontend/
-│   ├── src/
-│   │   ├── app/
-│   │   │   ├── pages/   # Components
-│   │   │   └── services/# API services
-│   │   └── styles.css
-│   ├── Dockerfile
-│   └── nginx.conf
-└── docker-compose.yml
+├── backend/            # Flask API
+│   ├── app/models/     # SQLAlchemy Models
+│   ├── app/routes/     # API Endpoints
+│   └── seed_data.py    # Data seeding script
+├── frontend/           # Angular App
+│   ├── src/app/pages/  # Admin & User components
+│   └── src/app/services# API & Auth services
+└── docker-compose.yml  # Container orchestration
 ```
 
-## API Documentation
+## 🐛 Troubleshooting
 
-### Authentication
+**Login Failed?**
 
-- `POST /api/auth/register` - Register new user
-- `POST /api/auth/login` - Login
-- `GET /api/auth/me` - Get current user
+- Ensure you ran the **seed command** (Step 2 above).
+- Check backend logs: `docker-compose logs -f backend`
 
-### Units
+**Registration Error?**
 
-- `GET /api/units` - List all units
-- `GET /api/units/{id}` - Get unit details
-- `POST /api/units` - Create unit (admin)
+- Password must be at least **6 characters**.
 
-### Bookings
-
-- `GET /api/bookings/my` - Get user's bookings
-- `POST /api/bookings/` - Create booking request
-- `GET /api/bookings` - Get all bookings (admin)
-- `PUT /api/bookings/{id}/status` - Update booking status (admin)
-
-### Admin
-
-- `GET /api/admin/dashboard/stats` - Get dashboard statistics
-
-## Database Seed
-
-To populate the database with sample data:
-
-```bash
-cd backend
-python3 seed_data.py
-```
-
-This creates:
-
-- 1 admin user
-- 12 amenities
-- 1 tower (Skyline Residences)
-- 5 sample apartments with amenities
-
-## Docker Commands
-
-**Start services:**
-
-```bash
-docker-compose up
-```
-
-**Rebuild and start:**
-
-```bash
-docker-compose up --build
-```
-
-**Stop services:**
+**Stop Services**
 
 ```bash
 docker-compose down
 ```
-
-**View logs:**
-
-```bash
-docker-compose logs -f
-```
-
-**Reset database:**
-
-```bash
-docker-compose down -v
-docker-compose up --build
-```
-
-## Environment Variables
-
-Create `.env` files if needed:
-
-**Backend (.env)**
-
-```
-DATABASE_URL=postgresql+psycopg://postgres:postgres@localhost:5432/apartment_rental
-SECRET_KEY=your-secret-key
-JWT_SECRET_KEY=your-jwt-secret
-```
-
-## License
-
-MIT License
